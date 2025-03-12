@@ -51,6 +51,22 @@ TEST(CandleTest, FullSize_NegativePrices) {
     EXPECT_DOUBLE_EQ(c.full_size(), 20);
 }
 
+// 2.4 body_size
+TEST(CandleTest, BodySize_GreenCandle) {
+    Candle c(100, 110, 90, 105);
+    EXPECT_DOUBLE_EQ(c.body_size(), 5);
+}
+
+TEST(CandleTest, BodySize_RedCandle) {
+    Candle c(105, 110, 90, 100);
+    EXPECT_DOUBLE_EQ(c.body_size(), 5);
+}
+
+TEST(CandleTest, BodySize_ZeroBody) {
+    Candle c(100, 110, 90, 100);
+    EXPECT_DOUBLE_EQ(c.body_size(), 0);
+}
+
 int main(int argc, char** argv) {
     ::testing::InitGoogleTest(&argc, argv);
     return RUN_ALL_TESTS();
