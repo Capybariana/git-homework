@@ -18,6 +18,24 @@ TEST(CandleTest, BodyContains_BoundaryCondition) {
     EXPECT_FALSE(c.body_contains(99)); // за пределами
 }
 
+// 2.2 contains
+TEST(CandleTest, Contains_InsideCandle) {
+    Candle c(100, 110, 90, 105);
+    EXPECT_TRUE(c.contains(95));
+}
+
+TEST(CandleTest, Contains_OnBoundary) {
+    Candle c(100, 110, 90, 105);
+    EXPECT_TRUE(c.contains(90));
+    EXPECT_TRUE(c.contains(110));
+}
+
+TEST(CandleTest, Contains_OutsideCandle) {
+    Candle c(100, 110, 90, 105);
+    EXPECT_FALSE(c.contains(89));
+    EXPECT_FALSE(c.contains(111));
+}
+
 int main(int argc, char** argv) {
     ::testing::InitGoogleTest(&argc, argv);
     return RUN_ALL_TESTS();
