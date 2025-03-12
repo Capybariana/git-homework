@@ -35,6 +35,21 @@ TEST(CandleTest, Contains_OutsideCandle) {
     EXPECT_FALSE(c.contains(89));
     EXPECT_FALSE(c.contains(111));
 }
+// 2.3 full_size
+TEST(CandleTest, FullSize_NormalCase) {
+    Candle c(100, 110, 90, 105);
+    EXPECT_DOUBLE_EQ(c.full_size(), 20);
+}
+
+TEST(CandleTest, FullSize_ZeroSize) {
+    Candle c(100, 100, 100, 100);
+    EXPECT_DOUBLE_EQ(c.full_size(), 0);
+}
+
+TEST(CandleTest, FullSize_NegativePrices) {
+    Candle c(-100, -90, -110, -95);
+    EXPECT_DOUBLE_EQ(c.full_size(), 20);
+}
 
 int main(int argc, char** argv) {
     ::testing::InitGoogleTest(&argc, argv);
