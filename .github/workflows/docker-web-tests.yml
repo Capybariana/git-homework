@@ -1,0 +1,48 @@
+name: Docker Web Tests
+
+on:
+  push:
+    branches:
+      - feature/docker-web-hub
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v3
+
+    - name: Log in to Docker Hub
+      uses: docker/login-action@v3
+      with:
+        username: ${{ secrets.DOCKER_USERNAME }}
+        password: ${{ secrets.DOCKER_PASSWORD }}
+        
+    - name: Install Docker Compose v2.24.7
+      run: |
+        # Скачиваем и устанавливаем Docker Compose v2
+        DOCKER_COMPOSE_VERSION="v2.24.7"
+        mkdir -p ~/.docker/cli-plugins/
+        curl -SL "https://github.com/docker/compose/releases/download/${DOCKER_COMPOSE_VERSION}/docker-compose-linux-x86_64" -o ~/.docker/cli-plugins/docker-compose
+        chmod +x ~/.docker/cli-plugins/docker-compose
+        docker compose version
+
+    - name: Run tests with Docker Compose
+      run: |
+        # Проверяем наличие docker-compose.yml
+        ls -la
+        docker compose -f docker-compose.yml up --build 
+
+    - name: Build and push app image
+      run: |
+        docker build -t ${{ secrets.DOCKER_USERNAME }}/test-repo-app:latest -f Dockerfile.app .
+        docker push ${{ secrets.DOCKER_USERNAME }}/test-repo-app:latest
+
+    - name: Build and push web image
+      run: |
+        docker build -t ${{ secrets.DOCKER_USERNAME }}/test-repo-web:latest -f Dockerfile.web .
+        docker push ${{ secrets.DOCKER_USERNAME }}/test-repo-web:latest
