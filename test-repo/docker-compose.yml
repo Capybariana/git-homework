@@ -1,0 +1,33 @@
+version: '3.8'
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile.app
+    container_name: test-repo_app
+    volumes:
+      - logs:/logs
+    networks:
+      - test-network
+    command: ["sh", "-c", "./build/runTests > /logs/tests.log"]
+
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile.web
+    container_name: test-repo_web
+    ports:
+      - "80:80"
+    volumes:
+      - logs:/logs
+    networks:
+      - test-network
+    depends_on:
+      - app
+
+networks:
+  test-network:
+
+volumes:
+  logs:
