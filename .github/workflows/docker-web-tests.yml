@@ -35,7 +35,7 @@ jobs:
       run: |
         # Проверяем наличие docker-compose.yml
         ls -la
-        docker compose -f docker-compose.yml up --build 
+        docker compose -f docker-compose.yml up --build --detach
 
     - name: Build and push app image
       run: |
