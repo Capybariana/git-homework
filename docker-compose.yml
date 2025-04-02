@@ -1,6 +1,4 @@
-version: '3.8'
-
-services:
+dockservices:
   app:
     build:
       context: .
@@ -10,7 +8,7 @@ services:
       - logs:/logs
     networks:
       - test-network
-    command: ["sh", "-c", "./build/runTests > /logs/tests.log"]
+    command: ["sh", "-c", "./build/runTests", "&&", "./build/runTests > /logs/tests.log"]
 
   web:
     build:
