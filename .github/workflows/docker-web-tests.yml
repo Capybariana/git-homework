@@ -30,12 +30,12 @@ jobs:
         curl -SL "https://github.com/docker/compose/releases/download/${DOCKER_COMPOSE_VERSION}/docker-compose-linux-x86_64" -o ~/.docker/cli-plugins/docker-compose
         chmod +x ~/.docker/cli-plugins/docker-compose
         docker compose version
-
+    
     - name: Run tests with Docker Compose
+      working-directory: ./upprpo/git/test-repo 
       run: |
-        # Проверяем наличие docker-compose.yml
         ls -la
-        docker compose -f docker-compose.yml up --build 
+        docker compose -f docker-compose.yml up --build  
 
     - name: Build and push app image
       run: |
