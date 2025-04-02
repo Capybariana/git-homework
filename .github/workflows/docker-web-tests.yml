@@ -21,7 +21,7 @@ jobs:
       with:
         username: ${{ secrets.DOCKER_USERNAME }}
         password: ${{ secrets.DOCKER_PASSWORD }}
-        
+
     - name: Install Docker Compose v2.24.7
       run: |
         # Скачиваем и устанавливаем Docker Compose v2
@@ -33,7 +33,9 @@ jobs:
 
     - name: Run tests with Docker Compose
       run: |
-        docker compose -f ./test-repo/docker-compose.yml up --build 
+        # Проверяем наличие docker-compose.yml
+        ls -la
+        docker compose -f docker-compose.yml up --build 
 
     - name: Build and push app image
       run: |
