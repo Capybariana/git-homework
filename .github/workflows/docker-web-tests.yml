@@ -4,6 +4,10 @@ on:
   push:
     branches:
       - feature/docker-web-hub
+      - feature/k8s-helm
+
+permissions:
+  contents: write
 
 jobs:
   build-and-test:
@@ -46,3 +50,21 @@ jobs:
       run: |
         docker build -t ${{ secrets.DOCKER_USERNAME }}/test-repo-web:latest -f Dockerfile.web .
         docker push ${{ secrets.DOCKER_USERNAME }}/test-repo-web:latest
+
+    - name: Set up Helm
+      uses: azure/setup-helm@v3
+
+    - name: Package Helm chart
+      run: |
+        helm package helm/test-repo-chart
+        ls -la
+        
+    - name: Create GitHub Release
+      uses: softprops/action-gh-release@v1
+      with:
+        name: Helm Chart Release
+        tag_name: v${{ github.run_number }}
+        files: |
+          test-repo-chart-*.tgz
+      env:
+        GITHUB_TOKEN: ${{ github.token }}
