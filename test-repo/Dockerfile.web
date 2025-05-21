@@ -1,8 +1,15 @@
 FROM nginx:latest
 
-RUN apt-get update && apt-get install -y curl
+RUN apt-get update && \
+    apt-get install -y curl wget ca-certificates && \
+    wget https://dl.k8s.io/release/stable.txt -O version.txt && \
+    KUBECTL_VERSION=$(cat version.txt) && \
+    wget https://dl.k8s.io/release/${KUBECTL_VERSION}/bin/linux/amd64/kubectl -O kubectl && \
+    chmod +x kubectl && \
+    mv kubectl /usr/local/bin/kubectl
 
 COPY entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
+RUN rm -f /usr/share/nginx/html/index.html
 
 ENTRYPOINT ["/entrypoint.sh"]
