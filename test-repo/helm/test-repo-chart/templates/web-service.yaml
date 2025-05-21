@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: test-repo-web
+  labels:
+    {{- include "test-repo-chart.labels" . | nindent 4 }}
+spec:
+  selector:
+    app: test-repo-web
+  ports:
+    - port: {{ .Values.web.service.port }}
+      targetPort: 80
+      protocol: TCP
+  type: {{ .Values.web.service.type }}

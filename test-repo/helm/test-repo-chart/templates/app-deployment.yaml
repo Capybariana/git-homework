@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: test-repo-app
+  labels:
+    {{- include "test-repo-chart.labels" . | nindent 4 }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: test-repo-app
+  template:
+    metadata:
+      labels:
+        app: test-repo-app
+    spec:
+      containers:
+        - name: app
+          image: "{{ .Values.app.image }}"
+          command: ["./build/runTests"]
+          ports:
+            - containerPort: 80
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+          livenessProbe:
+            httpGet:
+              path: /
+              port: 80
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 80

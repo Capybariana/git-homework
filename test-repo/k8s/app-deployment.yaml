@@ -1,0 +1,18 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: test-repo-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: test-repo-app
+  template:
+    metadata:
+      labels:
+        app: test-repo-app
+    spec:
+      containers:
+      - name: test-repo-app
+        image: capybariana/test-repo-app:latest
+        command: ["./build/runTests"]
