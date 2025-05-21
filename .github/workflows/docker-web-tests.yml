@@ -43,12 +43,12 @@ jobs:
 
     - name: Build and push app image
       run: |
-        docker build -t ${{ secrets.DOCKER_USERNAME }}/test-repo-app:latest -f test-repo/Dockerfile.app .
+        docker build -t ${{ secrets.DOCKER_USERNAME }}/test-repo-app:latest -f Dockerfile.app .
         docker push ${{ secrets.DOCKER_USERNAME }}/test-repo-app:latest
 
     - name: Build and push web image
       run: |
-        docker build -t ${{ secrets.DOCKER_USERNAME }}/test-repo-web:latest -f test-repo/Dockerfile.web .
+        docker build -t ${{ secrets.DOCKER_USERNAME }}/test-repo-web:latest -f Dockerfile.web .
         docker push ${{ secrets.DOCKER_USERNAME }}/test-repo-web:latest
 
     - name: Set up Helm
