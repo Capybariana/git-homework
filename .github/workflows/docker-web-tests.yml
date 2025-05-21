@@ -39,7 +39,7 @@ jobs:
       run: |
         # Проверяем наличие docker-compose.yml
         ls -la
-        docker compose -f test-repo/docker-compose.yml up --build 
+        docker compose -f test-repo/docker-compose.yml up --build -d
 
     - name: Build and push app image
       run: |
