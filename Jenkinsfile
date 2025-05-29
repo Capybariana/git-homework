@@ -58,18 +58,18 @@ pipeline {
         stage('Publish to GitHub Pages') {
             steps {
                 echo "Публикация Helm-чарта на GitHub Pages."
-
             }
         }
 
         stage('Deploy to Kubernetes') {
-    steps {
-        script {
-            def tgzFile = sh(script: "ls -t helm/test-repo-chart/*.tgz | head -n1", returnStdout: true).trim()
-            sh "helm upgrade --install testv3 ${tgzFile}"
+            steps {
+                script {
+                    def tgzFile = sh(script: "ls -t helm/test-repo-chart/*.tgz | head -n1", returnStdout: true).trim()
+                    sh "helm upgrade --install testv3 ${tgzFile}"
+                }
+            }
         }
     }
-}
 
     post {
         always {
